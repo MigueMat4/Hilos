@@ -8,6 +8,9 @@ import java.util.logging.Logger;
  * @author Miguel Matul
  */
 public class frmMain extends javax.swing.JFrame {
+    
+    Numero hiloNumero;
+    Letra hiloLetra;
 
     /**
      * Creates new form frmMain
@@ -16,7 +19,71 @@ public class frmMain extends javax.swing.JFrame {
         initComponents();
     }
     
-    //
+    public class Numero extends Thread {
+        private int valor;
+    
+        public Numero() {
+            valor = 0;
+        }
+        
+        @Override
+        public void run(){
+            btnIniciarNumero.setEnabled(false);
+            txtNumero.setEnabled(false);
+            while(valor <= 100){
+                lblNumero.setText(String.valueOf(valor));
+                valor++;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            txtNumero.setEnabled(true);
+            btnIniciarNumero.setEnabled(true);
+        }
+
+        public int getValor() {
+            return valor;
+        }
+
+        public void setValor(int valor) {
+            this.valor = valor;
+        }
+    }
+    
+    public class Letra extends Thread {
+        private char letra;
+        
+        public Letra() {
+            letra = 'a';
+        }
+        
+        @Override
+        public void run(){
+            btnIniciarLetra.setEnabled(false);
+            txtLetra.setEnabled(false);
+            do {
+                lblLetra.setText(String.valueOf(letra));
+                letra++;
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(frmMain.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } while(letra <= 'z');
+            txtLetra.setEnabled(true);
+            btnIniciarLetra.setEnabled(true);
+        }
+
+        public char getLetra() {
+            return letra;
+        }
+
+        public void setLetra(char letra) {
+            this.letra = letra;
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -117,11 +184,17 @@ public class frmMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarNumeroActionPerformed
-        //
+        hiloNumero = new Numero();
+        if (txtNumero.getText().length() > 0)
+            hiloNumero.setValor(Integer.valueOf(txtNumero.getText()));
+        hiloNumero.start();
     }//GEN-LAST:event_btnIniciarNumeroActionPerformed
 
     private void btnIniciarLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarLetraActionPerformed
-        //
+        hiloLetra = new Letra();
+        if (txtLetra.getText().length() > 0)
+            hiloLetra.setLetra(txtLetra.getText().charAt(0));
+        hiloLetra.start();
     }//GEN-LAST:event_btnIniciarLetraActionPerformed
 
     /**
