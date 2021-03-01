@@ -5,10 +5,11 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Miguel Matul
+ * @author Miguel Matul <https://github.com/MigueMat4>
  */
 public class frmMain extends javax.swing.JFrame {
     
+    //Declaración de hilos necesarios para los JLabel
     Numero hiloNumero;
     Letra hiloLetra;
 
@@ -19,6 +20,7 @@ public class frmMain extends javax.swing.JFrame {
         initComponents();
     }
     
+    // Clase hilo para aumentar el número
     public class Numero extends Thread {
         private int valor;
     
@@ -26,6 +28,7 @@ public class frmMain extends javax.swing.JFrame {
             valor = 0;
         }
         
+        // El método run es llamado con la acción start() del hilo y a su vez se usa un hilo diferente al principal (main)
         @Override
         public void run(){
             btnIniciarNumero.setEnabled(false);
@@ -52,6 +55,7 @@ public class frmMain extends javax.swing.JFrame {
         }
     }
     
+    // Clase hilo para cambiar la letra
     public class Letra extends Thread {
         private char letra;
         
@@ -61,6 +65,8 @@ public class frmMain extends javax.swing.JFrame {
         
         @Override
         public void run(){
+            // Se bloquea el botón para evitar conflictos con el método start() del hilo
+            // No se puede usar start() más de una vez por cada construcción del objeto
             btnIniciarLetra.setEnabled(false);
             txtLetra.setEnabled(false);
             do {
@@ -184,10 +190,10 @@ public class frmMain extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarNumeroActionPerformed
-        hiloNumero = new Numero();
+        hiloNumero = new Numero(); //Cada vez que se use el botón se debe inicialziar nuevamente el objeto
         if (txtNumero.getText().length() > 0)
             hiloNumero.setValor(Integer.valueOf(txtNumero.getText()));
-        hiloNumero.start();
+        hiloNumero.start(); //Ejecución del hilo, solo se puede usar una vez por cada construcción del objeto, por eso se construye al inicio en cada clic al botón
     }//GEN-LAST:event_btnIniciarNumeroActionPerformed
 
     private void btnIniciarLetraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarLetraActionPerformed
