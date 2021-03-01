@@ -1,2 +1,2 @@
 # Hilos
- Ejemplo de uso de hilos en Java
+ Ejemplo de clases que heredan la clase hilo de Java, de manera que trabajen en un hilo separado al hilo principal.
